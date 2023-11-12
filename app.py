@@ -44,5 +44,17 @@ class PropertiesList(Resource):
 
 api.add_resource(PropertiesList, '/properties')
 
+
+class PropertyById(Resource):
+    def delete(self, id):
+        property_to_delete = Properties.query.get(id)
+        if property_to_delete is None:
+            return {"message": "Property not found"}, 404  # 404 status code indicates not found
+
+        db.session.delete(property_to_delete)
+        db.session.commit()
+
+        return {"message": "Property deleted successfully"}, 200  # 200 status code indicates successful deletion
+api.add_resource(PropertyById, '/properties/<int:id>')
 if __name__ == '__main__':
     app.run(debug=True)
