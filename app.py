@@ -17,11 +17,12 @@ migrate = Migrate(app, db)
 api = Api(app)
 
 
+
 class PropertiesList(Resource):
     def get(self):
         properties = Properties.query.all()
-        return [property.serialize() for property in properties]
-    
+        return [property.to_dict() for property in properties]
+
     def post(self):
         property_data = request.get_json()
         new_property = Properties(
@@ -35,7 +36,10 @@ class PropertiesList(Resource):
         )
         db.session.add(new_property)
         db.session.commit()
-        return {'message': 'Property added successfully'}
+
+        # Return the details of the newly added property
+        return new_property.to_dict(), 201  # 201 status code indicates successful creation
+
 
 api.add_resource(PropertiesList, '/properties')
 

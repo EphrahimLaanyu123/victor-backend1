@@ -12,5 +12,14 @@ class Properties(db.Model):
     available = db.Column(db.Boolean, nullable=False, default=True)
     image = db.Column(db.String(255), nullable=False)
 
-    def __repr__(self):
-        return f"Properties(id={self.id}, name={self.name}, location={self.location}, bedrooms={self.bedrooms}, bathrooms={self.bathrooms}, price={self.price}, available={self.available}, image={self.image})"
+    def to_dict(self):
+        return {
+             "id": self.id,
+            "name": self.name,
+            "location": self.location,
+            "bedrooms": self.bedrooms,
+            "bathrooms": self.bathrooms,
+            "price": self.price,
+            "available": self.available,
+            "image": self.image,
+        }
